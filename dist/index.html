@@ -53,13 +53,15 @@
         isDrawing = false;
       }
 
+      
       // Helper function to get the mouse/touch position relative to the canvas
       function getMousePosition(e) {
         const rect = canvas.getBoundingClientRect();
         const scaleX = canvas.width / rect.width;
         const scaleY = canvas.height / rect.height;
-        const x = (e.clientX - rect.left) * scaleX;
-        const y = (e.clientY - rect.top) * scaleY;
+        const { clientX, clientY } = e.touches?.[0] || e;
+        const x = (clientX - rect.left) * scaleX;
+        const y = (clientY - rect.top) * scaleY;
         return [x, y];
       }
     </script>
