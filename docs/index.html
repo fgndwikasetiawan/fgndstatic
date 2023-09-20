@@ -6,9 +6,11 @@
         I'm just trying GitHub Pages
 
         <script>
-            window.onkeypress('h', () => {
-                alert('you pressed h');
-            });
+            window.onkeypress = (event) => {
+                if (event.keyCode === 72) {
+                    alert('you pressed h');
+                }
+            };
         </script>
     </body>
 </html>
