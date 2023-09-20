@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="user-scalable=no">
+    <title>Canvas Drawing Demo</title>
+    <style>
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <pre>v3</pre>
+    <script>
+      // Get the canvas element and its context
+      const canvas = document.getElementById('canvas');
+      const context = canvas.getContext('2d');
+
+      // Initialize variables to track mouse/touch input
+      let isDrawing = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      // Set up event listeners for mouse/touch input
+      canvas.addEventListener('mousedown', startDrawing);
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('mouseup', stopDrawing);
+      canvas.addEventListener('mouseout', stopDrawing);
+
+      canvas.addEventListener('touchstart', startDrawing);
+      canvas.addEventListener('touchmove', draw);
+      canvas.addEventListener('touchend', stopDrawing);
+      canvas.addEventListener('touchcancel', stopDrawing);
+
+      // Function to start drawing
+      function startDrawing(e) {
+        isDrawing = true;
+        [lastX, lastY] = getMousePosition(e);
+      }
+
+      // Function to draw a line
+      function draw(e) {
+        if (!isDrawing) return;
+        const [x, y] = getMousePosition(e);
+        context.beginPath();
+        context.moveTo(lastX, lastY);
+        context.lineTo(x, y);
+        context.stroke();
+        [lastX, lastY] = [x, y];
+      }
+
+      // Function to stop drawing
+      function stopDrawing() {
+        isDrawing = false;
+      }
+
+      
+      // Helper function to get the mouse/touch position relative to the canvas
+      function getMousePosition(e) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        const { clientX, clientY } = e.touches?.[0] || e;
+        const x = (clientX - rect.left) * scaleX;
+        const y = (clientY - rect.top) * scaleY;
+        return [x, y];
+      }
+    </script>
+  </body>
+</html>
